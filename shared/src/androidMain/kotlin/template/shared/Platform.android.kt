@@ -14,6 +14,7 @@ class AndroidPlatform : Platform {
 
 actual fun getPlatform(): Platform = AndroidPlatform()
 
+@Suppress("LongParameterList")
 actual fun drawShadowRect(
     shadowRadius: Float,
     color: Color,

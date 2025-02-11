@@ -73,6 +73,7 @@ fun App() {
                             )
                         },
                     ) {
+                        @Suppress("MaxLineLength")
                         ImageWrapper(
                             image = UiImage.Local(Res.drawable.compose_multiplatform),
                             contentDescription = null,

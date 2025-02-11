@@ -11,6 +11,7 @@ import platform.CoreGraphics.CGSizeMake
 import platform.UIKit.UIGraphicsGetCurrentContext
 
 @OptIn(ExperimentalForeignApi::class)
+@Suppress("LongParameterList")
 actual fun drawShadowRect(
     shadowRadius: Float,
     color: Color,

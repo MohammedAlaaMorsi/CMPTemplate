@@ -6,12 +6,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import kotlin.math.pow
 
+@Suppress("MatchingDeclarationName")
 class JVMPlatform : Platform {
     override val name: String = "Java ${System.getProperty("java.version")}"
 }
 
 actual fun getPlatform(): Platform = JVMPlatform()
 
+@Suppress("LongParameterList", "MagicNumber")
 actual fun drawShadowRect(
     shadowRadius: Float,
     color: Color,

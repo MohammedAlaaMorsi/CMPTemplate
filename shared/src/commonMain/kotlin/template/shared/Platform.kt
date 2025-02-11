@@ -10,6 +10,7 @@ interface Platform {
 
 expect fun getPlatform(): Platform
 
+@Suppress("LongParameterList")
 expect fun drawShadowRect(
     shadowRadius: Float,
     color: Color,
