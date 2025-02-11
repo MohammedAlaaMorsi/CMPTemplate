@@ -36,6 +36,9 @@ jobs:
       - name: Show build settings
         run: xcodebuild -project iosApp/templateIOS.xcodeproj -scheme templateIOS -showBuildSettings
 
+      - name: Ensure iOS Framework is Ready
+        run: ./gradlew :shared:assembleReleaseXCFramework
+
       - name: Build and Archive
         uses: sersoft-gmbh/xcodebuild-action@v3
         with:
