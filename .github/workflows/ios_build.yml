@@ -5,6 +5,7 @@ concurrency:
   cancel-in-progress: true
 
 on:
+  workflow_dispatch:
   pull_request:
     types: [opened, synchronize]
   push:
@@ -26,6 +27,15 @@ jobs:
       - name: Run tests
         run: ./gradlew :shared:iosX64Test
 
+      - name: Build Kotlin Framework
+        run: ./gradlew :shared:linkReleaseFrameworkIosArm64
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Show build settings
+        run: xcodebuild -project iosApp/templateIOS.xcodeproj -scheme templateIOS -showBuildSettings
+
       - name: Build and Archive
         uses: sersoft-gmbh/xcodebuild-action@v3
         with:
@@ -38,16 +48,20 @@ jobs:
           build-settings: |
             CODE_SIGN_IDENTITY=
             CODE_SIGNING_REQUIRED=NO
+            COMPILER_INDEX_STORE_ENABLE=NO
+          derived-data-path: build/DerivedData
+          extra-args: -verbose SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES
 
       - name: Export IPA
         run: |
           xcodebuild -exportArchive \
             -archivePath build/templateIOS.xcarchive \
             -exportOptionsPlist iosApp/exportOptions.plist \
-            -exportPath build/
+            -exportPath build/ \
+            -verbose
 
       - name: Create Release
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -59,7 +73,7 @@ jobs:
           prerelease: false
 
       - name: Upload IPA to Release
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -68,3 +82,12 @@ jobs:
           asset_path: ./build/templateIOS.ipa
           asset_name: templateIOS.ipa
           asset_content_type: application/octet-stream
+
+      - name: Upload build logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-logs
+          path: |
+            build/DerivedData/Logs/Build
+            build/*.log
