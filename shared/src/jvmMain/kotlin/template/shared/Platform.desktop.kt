@@ -1,3 +1,5 @@
+@file:Suppress("MatchingDeclarationName")
+
 package template.shared
 
 import androidx.compose.ui.geometry.Size
@@ -6,7 +8,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import kotlin.math.pow
 
-@Suppress("MatchingDeclarationName")
 class JVMPlatform : Platform {
     override val name: String = "Java ${System.getProperty("java.version")}"
 }
