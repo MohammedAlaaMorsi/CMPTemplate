@@ -50,7 +50,7 @@ jobs:
             CODE_SIGNING_REQUIRED=NO
             COMPILER_INDEX_STORE_ENABLE=NO
           derived-data-path: build/DerivedData
-          extra-args: -verbose SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+          extra-args: -verbose SKIP_INSTALL=YES
 
       - name: Export IPA
         run: |
