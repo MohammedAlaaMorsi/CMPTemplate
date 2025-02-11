@@ -8,12 +8,14 @@ plugins {
 
 kotlin {
     jvm()
-
     sourceSets {
-        jvmMain.dependencies {
+
+        val jvmMain by getting {
+            dependencies {
+            implementation(project(":shared"))
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
-            implementation(project(":shared"))
+        }
         }
     }
 }
@@ -28,4 +30,10 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+
+tasks.register<JavaExec>("desktopRun") {
+    group = "application"
+    mainClass.set("template.MainKt")
+    classpath = sourceSets["jvmMain"].runtimeClasspath
 }

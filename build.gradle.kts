@@ -11,9 +11,12 @@ plugins {
     alias(libs.plugins.google.devtools.ksp).apply(false)
     alias(libs.plugins.kotlin.android).apply(false)
     alias(libs.plugins.kotlin.multiplatform).apply(false)
+    alias(libs.plugins.kotlin.compose).apply(false)
     alias(libs.plugins.kotlinter).apply(false)
     alias(libs.plugins.square.sortDependencies).apply(false)
 }
+
+
 
 apply(from = "buildscripts/githooks.gradle")
 apply(from = "buildscripts/setup.gradle")

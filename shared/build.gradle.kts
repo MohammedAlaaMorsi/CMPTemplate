@@ -33,8 +33,7 @@ kotlin {
         }
     }
 
-    jvm("desktop")
-
+    jvm()
     sourceSets {
         commonMain.dependencies {
             implementation(compose.runtime)
