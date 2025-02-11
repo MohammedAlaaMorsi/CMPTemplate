@@ -39,6 +39,9 @@ jobs:
       - name: Ensure iOS Framework is Ready
         run: ./gradlew :shared:assembleRelease
 
+      - name: Build Kotlin Framework
+        run: ./gradlew :shared:linkReleaseFrameworkIosArm64
+
       - name: Build and Archive
         uses: sersoft-gmbh/xcodebuild-action@v3
         with:
@@ -49,10 +52,12 @@ jobs:
           action: archive
           archive-path: build/templateIOS.xcarchive
           build-settings: |
-            CODE_SIGN_STYLE=Manual
+            CODE_SIGN_IDENTITY=
+            CODE_SIGNING_REQUIRED=NO
             COMPILER_INDEX_STORE_ENABLE=NO
           derived-data-path: build/DerivedData
-          extra-args: -verbose SKIP_INSTALL=YES
+          extra-args: -verbose SKIP_INSTALL=NO
+
 
       - name: Export IPA
         run: |
